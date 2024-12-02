@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import Movies from ".";
 import userEvent from "@testing-library/user-event";
+import { act } from "react";
 
 const initialMovies = [
   {
@@ -38,12 +39,15 @@ test("submitted movie gets renders in the list", async () => {
 
   const input = screen.getByLabelText("Name");
   // document.querySelector()
-  await user.type(input, "Conclave");
 
   const submitButton = screen.getByRole("button", {
     name: "Add",
   });
-  await user.click(submitButton);
+
+  await act(async () => {
+    await user.type(input, "Conclave");
+    await user.click(submitButton);
+  });
 
   const heading = screen.getByRole("heading", {
     name: "Conclave",
